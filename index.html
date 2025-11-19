@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exeathub Dashboard</title>
+    <link rel="stylesheet" href="./studentdashboard.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar" id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <img src="./test.jpg" alt="Logo">
+            </a>
+
+            <div class="nav-right">
+                <div class="exeat-cart">
+                    <span class="cart-icon">📝</span>
+                    <span class="cart-count">3</span>
+                </div>
+                <button id="hamburger" class="hamburger" aria-label="Open Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <button id="closeBtn" class="close-btn">✕</button>
+        <nav class="sidebar-nav">
+            <ul class="sidebar-links">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Request Exeat</a></li>
+                <li><a href="#">History</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-logo">
+            <img src="./test.jpg" alt="Sidebar Logo">
+        </div>
+    </aside>
+
+
+    <main class="page"></main>
+    <section class="greeting-section" data-animate>
+        <div class="greeting-container">
+            <h2><span class="greeting-name">Hello, <span id="user-name">Student</span>!</span></h2>
+            <p class="greeting-subtext">Welcome to Exeat Hub, Covenant University.</p>
+        </div>
+    </section>
+
+
+
+    <section class="exeat-section" data-animate>
+        <div class="exeat-container">
+            <h2 class="section-title">Apply for an Exeat</h2>
+
+            <!-- Exeat Types -->
+            <div class="exeat-types">
+                <button class="exeat-type" data-type="Day Exeat">Day Exeat</button>
+                <button class="exeat-type" data-type="Home Exeat">Home Exeat</button>
+                <button class="exeat-type" data-type="Canaanland Exeat">Canaanland Exeat</button>
+            </div>
+
+            <!-- Single Form Container -->
+            <div id="exeat-form-container" class="exeat-form">
+                <form>
+                    <label>Exeat Type</label>
+                    <input type="text" id="exeat-type-input" value="Day Exeat" readonly>
+
+                    <!-- Name -->
+                    <label>Name</label>
+                    <input type="text" placeholder="Enter your name" required>
+
+                    <!-- Matric No + Level -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Matric Number</label>
+                            <input type="text" placeholder="Enter matric number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Level</label>
+                            <input type="text" placeholder="Enter your level" required>
+                        </div>
+                    </div>
+
+                    <!-- College + Course of Study -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>College</label>
+                            <input type="text" placeholder="Enter your college" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Course of Study</label>
+                            <input type="text" placeholder="Enter your course of study" required>
+                        </div>
+                    </div>
+
+                    <!-- Reason -->
+                    <label>Reason</label>
+                    <textarea placeholder="Enter reason for exeat" rows="3" required></textarea>
+
+                    <!-- Proof of Reason -->
+                    <label>Proof of Reason</label>
+                    <div class="file-upload" id="file-upload">
+                        <p>Drag & Drop your file here or <span class="browse">browse</span></p>
+                        <input type="file" id="proof-file" hidden>
+                    </div>
+
+                    <!-- Duration -->
+                    <label>Duration</label>
+                    <div class="duration">
+                        <input type="date" placeholder="Start Date" required>
+                        <input type="date" placeholder="End Date" required>
+                    </div>
+
+                    <!-- Contact Person -->
+                    <label>Contact Person</label>
+                    <div class="contact-person">
+                        <input type="text" placeholder="Relation" required>
+                        <input type="tel" placeholder="Phone Number" required>
+                    </div>
+
+                    <!-- Phone -->
+                    <label>Phone (while away)</label>
+                    <input type="tel" placeholder="Your contact number" required>
+
+                    <button type="submit" class="submit-btn">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+    <!--Exeat history section-->
+    <section class="exeat-history-section" data-animate>
+        <div class="exeat-container">
+            <h2 class="section-title">Exeat History</h2>
+
+            <!-- Filters -->
+            <div class="history-filters">
+                <div class="type-filters">
+                    <button class="type-filter active" data-type="all">All Types</button>
+                    <button class="type-filter" data-type="Day Exeat">Day Exeat</button>
+                    <button class="type-filter" data-type="Home Exeat">Home Exeat</button>
+                    <button class="type-filter" data-type="Canaanland Exeat">Canaanland Exeat</button>
+                </div>
+                <div class="status-filters">
+                    <button class="status-filter active" data-status="all">All</button>
+                    <button class="status-filter" data-status="Approved">Approved</button>
+                    <button class="status-filter" data-status="Denied">Denied</button>
+                    <button class="status-filter" data-status="Processing">Processing</button>
+                </div>
+            </div>
+
+            <!-- History List -->
+            <div class="history-list">
+                <!-- Example Item -->
+
+
+                <div class="history-item" data-type="Day Exeat" data-status="Approved" data-animate>
+                    <div class="item-header">
+                        <span class="item-type">Day Exeat</span>
+                        <span class="item-status approved">Approved</span>
+                    </div>
+                    <div class="item-body">
+                        <p><strong>Reason:</strong> Family emergency</p>
+                        <p><strong>Duration:</strong> 2025-11-20 to 2025-11-21</p>
+                    </div>
+                    <div class="item-footer">
+                        <button class="view-slip-btn">View Exeat Slip</button>
+                    </div>
+                </div>
+
+
+                <div class="history-item" data-type="Home Exeat" data-status="Processing" data-animate>
+                    <div class="item-header">
+                        <span class="item-type">Home Exeat</span>
+                        <span class="item-status processing">Processing</span>
+                    </div>
+                    <div class="item-body">
+                        <p><strong>Reason:</strong> Personal matter</p>
+                        <p><strong>Duration:</strong> 2025-11-22 to 2025-11-23</p>
+                    </div>
+                </div>
+
+                <div class="history-item" data-type="Canaanland Exeat" data-status="Denied" data-animate>
+                    <div class="item-header">
+                        <span class="item-type">Canaanland Exeat</span>
+                        <span class="item-status denied">Denied</span>
+                    </div>
+                    <div class="item-body">
+                        <p><strong>Reason:</strong> Travel plans</p>
+                        <p><strong>Duration:</strong> 2025-11-25 to 2025-11-27</p>
+                    </div>
+                </div>
+
+                <!-- More items can be added dynamically -->
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </main>
+
+    <script src="./studentdashboard.js"></script>
+</body>
+
+</html>
