@@ -150,34 +150,37 @@ body {
 /* --------------------------
    Sidebar
 --------------------------- */
-/* --------------------------
-   Sidebar (Collapsed / Expanded)
---------------------------- */
 .sidebar {
     position: fixed;
     top: 0;
-    left: 0;
-    /* sidebar on left */
-    width: 60px;
-    /* collapsed width */
+    right: -300px;
+    width: 280px;
     height: 100%;
     background: var(--white);
-    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.05);
-    padding: 20px 10px;
+    box-shadow: -4px 12px 40px var(--shadow);
+    padding: 80px 20px 120px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     z-index: 2000;
-    /* floats above content */
-    transition: width 0.35s ease, padding 0.35s ease;
-    overflow: hidden;
+    transition: right 0.45s ease, clip-path 0.5s ease;
+    clip-path: circle(0% at 100% 0);
 }
 
-/* Expanded sidebar */
-.sidebar.expanded {
-    width: 220px;
-    /* expanded width */
-    padding: 80px 20px 120px;
+.sidebar.active {
+    right: 0;
+    clip-path: circle(150% at 100% 0);
+}
+
+.close-btn {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-size: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--blue);
 }
 
 /* Sidebar links */
@@ -190,19 +193,15 @@ body {
 }
 
 .sidebar-links a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    position: relative;
     color: var(--blue);
     text-decoration: none;
     font-weight: 500;
     font-size: 16px;
     padding: 10px 0;
-    position: relative;
-    transition: all 0.25s ease;
+    transition: transform 0.25s ease, color 0.25s ease;
 }
 
-/* Hover underline effect */
 .sidebar-links a::after {
     content: "";
     position: absolute;
@@ -226,24 +225,27 @@ body {
     transform: translateX(5px);
 }
 
-/* Icon + label handling */
-.sidebar-links a .label {
-    display: none;
-    /* hidden in collapsed state */
+/* ----------------------------
+   Fade-up animations (continuous)
+--------------------------- */
+[data-animate] {
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-.sidebar.expanded .sidebar-links a .label {
-    display: inline;
-    /* show labels when expanded */
+[data-animate].animated {
     opacity: 1;
+    transform: translateY(0);
 }
 
-/* Hover effect when collapsed */
-.sidebar:not(.expanded) .sidebar-links a:hover {
-    background: #f0f6ff;
-    border-radius: 8px;
+/* Apply fade-up to all content blocks and hero text */
+.hero,
+.hero h1,
+.hero p,
+.block,
+.sidebar-links li {
+    will-change: transform, opacity;
 }
 
 /* Sidebar logo at bottom */
@@ -259,128 +261,73 @@ body {
     width: 110px;
 }
 
-/* ----------------------------
-   Hamburger (for toggling)
+/* --------------------------
+   Demo content
 --------------------------- */
-.hamburger {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 32px;
-    height: 28px;
+.page {
+    padding-top: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+    color: var(--blue);
+}
+
+.hero p {
+    color: #6b7280;
+    opacity: 0.9;
+}
+
+.content {
+    padding: 20px 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-    z-index: 2100;
-    /* above sidebar */
+    gap: 20px;
 }
 
-.hamburger span {
-    display: block;
-    height: 4px;
-    width: 100%;
-    background: var(--blue);
-    border-radius: 2px;
-    transition: all 0.3s ease;
+.block {
+    min-height: 200px;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    padding: 20px;
 }
 
-.hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
-}
-
-/* ----------------------------
-   Main content adjustments
+/* --------------------------
+   Responsive
 --------------------------- */
-.main-content {
-    padding-left: 70px;
-    /* space for collapsed sidebar */
-    transition: padding-left 0.35s ease;
-}
-
-.sidebar.expanded~.main-content {
-    padding-left: 230px;
-    /* space for expanded sidebar */
-}
-
-/* ----------------------------
-   Fade-up animations (continuous)
---------------------------- */
-[data-animate] {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-[data-animate].animated {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.hero,
-.hero h1,
-.hero p,
-.block,
-.sidebar-links li {
-    will-change: transform, opacity;
-}
-
-/* ----------------------------
-   Responsive adjustments
---------------------------- */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 50px;
-        padding: 15px 8px;
+@media (max-width: 480px) {
+    .navbar {
+        height: 65px;
     }
 
-    .sidebar.expanded {
-        width: 180px;
-        padding: 60px 15px 100px;
-    }
-
-    .main-content {
-        padding-left: 60px;
-    }
-
-    .sidebar.expanded~.main-content {
-        padding-left: 200px;
+    .nav-logo img {
+        height: 36px;
     }
 
     .hamburger {
-        top: 15px;
-        left: 15px;
+        width: 28px;
+        height: 24px;
     }
-}
 
-@media (max-width: 480px) {
     .sidebar {
-        width: 45px;
-        padding: 10px 5px;
+        width: 80%;
+        padding-top: 64px;
+        padding-bottom: 100px;
     }
 
-    .sidebar.expanded {
-        width: 160px;
-        padding: 50px 10px 80px;
-    }
-
-    .main-content {
-        padding-left: 55px;
-    }
-
-    .sidebar.expanded~.main-content {
-        padding-left: 180px;
+    .sidebar-logo img {
+        width: 90px;
     }
 }
-
 
 
 
@@ -825,7 +772,7 @@ textarea:focus {
 }
 
 .status.pending {
-    background: #f1a200;
+    background: #fff;
 }
 
 .status.declined {
@@ -849,164 +796,218 @@ textarea:focus {
 /* =========================
    Pending Applications Section
 =========================== */
-.pending-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 30px;
-    margin-bottom: 60px;
+/* ===================== Pending Applications ===================== */
+.pending-applications-section {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.pending-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 25px;
-    background: #f7f9ff;
+.pending-applications-section.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #0047AB;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.section-subtitle {
+    font-size: 1rem;
+    color: #475569;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.pending-table {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.pending-header {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    font-weight: 600;
+    color: #0047AB;
+    padding: 12px 15px;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+.pending-row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    padding: 12px 15px;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    background: #f7f9ff;
+    align-items: center;
+    gap: 5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
 }
 
-.track-status-btn {
+.pending-row:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.status.pending {
+    color: #f1a200;
+    font-weight: 600;
+}
+
+/* View Details Button */
+.view-details-btn {
+    padding: 8px 14px;
     background: #0047AB;
-    color: white;
+    color: #fff;
     border: none;
-    padding: 10px 18px;
-    border-radius: 10px;
+    border-radius: 12px;
+    font-weight: 600;
     cursor: pointer;
     transition: 0.3s;
 }
 
-.track-status-btn:hover {
+.view-details-btn:hover {
     background: #033b90;
 }
 
-/* =========================
-   Track Status Modal
-=========================== */
-.track-modal {
+/* ===================== Modal ===================== */
+.details-modal {
     display: none;
     position: fixed;
-    z-index: 2000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(5px);
-    background: rgba(0, 0, 0, 0.3);
-    display: flex;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+    z-index: 2000;
 }
 
-.track-modal-content {
-    background: white;
-    border-radius: 15px;
-    padding: 40px;
-    width: 90%;
+.details-modal-content {
+    background: #f9faff;
+    padding: 25px 30px;
+    border-radius: 16px;
     max-width: 600px;
+    width: 95%;
     position: relative;
-    text-align: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .close-modal {
     position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 1.5rem;
+    top: 12px;
+    right: 18px;
+    font-size: 2rem;
     cursor: pointer;
+    color: #0047AB;
+    font-weight: bold;
 }
 
-.track-modal {
-    display: none;
-    /* MUST be none initially */
-    position: fixed;
-    z-index: 2000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(5px);
-    background: rgba(0, 0, 0, 0.3);
-    justify-content: center;
-    align-items: center;
-}
-
-.track-modal-content {
-    background: white;
-    border-radius: 15px;
-    padding: 40px;
-    width: 90%;
-    max-width: 600px;
-    position: relative;
-    text-align: center;
-}
-
-.close-modal {
-    position: absolute;
-    top: 15px;
-    right: 20px;
+.details-modal-content h3 {
     font-size: 1.5rem;
-    cursor: pointer;
+    color: #0047AB;
+    margin-bottom: 20px;
 }
 
+.details-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 15px;
+}
 
-.progress-tracker {
+.details-info p {
+    background: #fff;
+    padding: 10px 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    font-size: 0.9rem;
+    color: #1f2937;
+}
+
+/* Tracked Status Steps */
+.tracked-status {
     display: flex;
     justify-content: space-between;
-    margin-top: 40px;
+    margin-top: 15px;
     flex-wrap: wrap;
 }
 
-.progress-tracker .step {
-    flex: 1;
-    padding: 18px;
-    border-radius: 12px;
-    background: #e5eeff;
-    color: #123b7a;
+.tracked-status .step {
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 0.85rem;
     font-weight: 600;
-    position: relative;
-    margin: 0 8px;
-    transition: 0.3s;
+    min-width: 100px;
+    text-align: center;
+    color: grey;
+    background: #f0f4ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }
 
-.progress-tracker .step.completed {
-    background: #2f63c9;
-    color: white;
+.tracked-status .step.completed {
+    color: #0047AB;
+    background: #e1ebff;
 }
 
-.progress-tracker .step::after {
-    content: '';
-    position: absolute;
-    height: 4px;
-    width: 100%;
-    background: #ccc;
-    top: 50%;
-    left: 100%;
-    z-index: -1;
+.tracked-status .step.completed::after {
+    content: '✔';
+    font-size: 0.7rem;
+    color: #0047AB;
 }
 
-.progress-tracker .step:last-child::after {
-    display: none;
+.tracked-status .step.failed {
+    color: #d9534f;
+    background: #ffe5e5;
 }
 
-/* =========================
-   Responsive Design
-=========================== */
+.tracked-status .step.failed::after {
+    content: '✖';
+    font-size: 0.7rem;
+    color: #d9534f;
+}
+
+/* Responsive */
 @media(max-width:768px) {
 
-    .exeat-history-list,
-    .pending-list {
-        gap: 15px;
+    .pending-header,
+    .pending-row {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+        font-size: 0.9rem;
     }
 
-    .progress-tracker {
-        flex-direction: column;
+    .details-info {
+        grid-template-columns: 1fr;
     }
 
-    .progress-tracker .step {
-        margin-bottom: 15px;
-        margin-left: 0;
-        margin-right: 0;
+    .tracked-status .step {
+        min-width: auto;
+        flex: 1 1 45%;
+        font-size: 0.75rem;
+        margin-bottom: 8px;
     }
 }

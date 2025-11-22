@@ -7,16 +7,28 @@ const overlay = document.getElementById("overlay");
 const closeBtn = document.getElementById("closeBtn");
 const navbar = document.getElementById("navbar");
 
+function openSidebar() {
+    hamburger.classList.add("active");
+    sidebar.classList.add("active");
+    overlay.classList.add("active");
+}
 
-
-
+function closeSidebar() {
+    hamburger.classList.remove("active");
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
+}
 
 hamburger.addEventListener("click", () => {
-    sidebar.classList.toggle("expanded");
-    hamburger.classList.toggle("active"); // animate hamburger
+    if (sidebar.classList.contains("active")) closeSidebar();
+    else openSidebar();
 });
 
-
+closeBtn.addEventListener("click", closeSidebar);
+overlay.addEventListener("click", closeSidebar);
+window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeSidebar();
+});
 
 // ---------------------------
 // Navbar hide/show on scroll
@@ -86,33 +98,33 @@ cards.forEach(card => {
 });
 
 
-// DRAG & DROP UPLOAD
+// Select Elements
 const uploadBox = document.getElementById("uploadBox");
 const fileInput = document.getElementById("fileInput");
 
-// Click to browse
+// Let button open file picker
 uploadBox.querySelector("button").addEventListener("click", () => {
     fileInput.click();
 });
 
-// Manual file selection
+// Handle manual file selection
 fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
     if (file) handleFile(file);
 });
 
-// Drag over
+// Prevent default & highlight on dragover
 uploadBox.addEventListener("dragover", (e) => {
     e.preventDefault();
-    uploadBox.style.background = "#e5eeff";
+    uploadBox.style.background = "#e5eeff"; // highlight
 });
 
-// Drag leave
+// Remove highlight on dragleave
 uploadBox.addEventListener("dragleave", () => {
     uploadBox.style.background = "#f0f6ff";
 });
 
-// Drop file
+// Handle drop event
 uploadBox.addEventListener("drop", (e) => {
     e.preventDefault();
     uploadBox.style.background = "#f0f6ff";
@@ -121,6 +133,7 @@ uploadBox.addEventListener("drop", (e) => {
     if (file) handleFile(file);
 });
 
+// Process file + show name
 function handleFile(file) {
     uploadBox.innerHTML = `
         <p><strong>${file.name}</strong></p>
@@ -130,51 +143,48 @@ function handleFile(file) {
 
 
 
-//pending exeat and exeat history
-// Filter Popup
-const filterBtn = document.querySelector('.filter-btn');
-const filterPopup = document.querySelector('.filter-popup');
-const applyFilter = document.querySelector('.apply-filter');
+//pending applications 
+// Modal functionality
+const detailsModal = document.getElementById('detailsModal');
+const closeModal = document.getElementById('closeModal');
+const detailsInfo = document.querySelector('.details-info');
 
-filterBtn.addEventListener('click', () => {
-    filterPopup.style.display = 'flex';
-});
-applyFilter.addEventListener('click', () => {
-    filterPopup.style.display = 'none';
-    const type = document.getElementById('filterType').value;
-    const status = document.getElementById('filterStatus').value;
-    const items = document.querySelectorAll('.exeat-item');
-    items.forEach(item => {
-        let show = true;
-        if (type !== 'all' && item.dataset.type !== type) show = false;
-        if (status !== 'all' && item.dataset.status !== status) show = false;
-        item.style.display = show ? 'flex' : 'none';
-    });
-});
-
-
-// Track Status Modal
-// Elements
-const trackBtns = document.querySelectorAll('.track-status-btn');
-const trackModal = document.getElementById('trackModal');
-const closeModal = document.getElementById('closeTrackModal');
-
-// Open modal only when clicking the button
-trackBtns.forEach(btn => {
+document.querySelectorAll('.view-details-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-        trackModal.style.display = 'flex';
+        const row = btn.closest('.pending-row');
+        const data = JSON.parse(row.dataset.application);
+
+        // Clear previous details
+        detailsInfo.innerHTML = '';
+
+        // Add details dynamically (excluding name, matric, college, level, course)
+        const keysToShow = ['reason', 'contact_relation', 'contact_phone', 'phone_while_away', 'start_date', 'end_date'];
+        keysToShow.forEach(key => {
+            if (data[key]) {
+                const p = document.createElement('p');
+                p.innerHTML = `<strong>${key.replace(/_/g, ' ')}:</strong> ${data[key]}`;
+                detailsInfo.appendChild(p);
+            }
+        });
+
+        // Reset tracked status
+        const steps = detailsModal.querySelectorAll('.step');
+        steps.forEach(s => {
+            s.classList.remove('completed', 'failed');
+            if (s.dataset.step === 'Applied') s.classList.add('completed');
+        });
+
+        detailsModal.style.display = 'flex';
     });
 });
 
-// Close modal when clicking the X
-closeModal.addEventListener('click', () => {
-    trackModal.style.display = 'none';
-});
-
-// Close modal when clicking outside the modal content
+// Close modal
+closeModal.addEventListener('click', () => detailsModal.style.display = 'none');
 window.addEventListener('click', e => {
-    if (e.target === trackModal) {
-        trackModal.style.display = 'none';
-    }
+    if (e.target === detailsModal) detailsModal.style.display = 'none';
 });
 
+// Close modal with ESC key
+window.addEventListener('keydown', e => {
+    if (e.key === "Escape") detailsModal.style.display = 'none';
+});
