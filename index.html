@@ -35,187 +35,233 @@
     <div id="overlay" class="overlay"></div>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar">
-        <button id="closeBtn" class="close-btn">✕</button>
-        <nav class="sidebar-nav">
-            <ul class="sidebar-links">
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Request Exeat</a></li>
-                <li><a href="#">History</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Settings</a></li>
-            </ul>
-        </nav>
+    <aside class="sidebar" id="sidebar">
+        <ul class="sidebar-links">
+            <li><a href="#"><span class="icon">🏠</span><span class="label">Dashboard</span></a></li>
+            <li><a href="#"><span class="icon">📄</span><span class="label">Exeat Types</span></a></li>
+            <li><a href="#"><span class="icon">📜</span><span class="label">Exeat History</span></a></li>
+            <li><a href="#"><span class="icon">🔑</span><span class="label">Change Password</span></a></li>
+        </ul>
         <div class="sidebar-logo">
-            <img src="./test.jpg" alt="Sidebar Logo">
+            <img src="logo.png" alt="Logo">
         </div>
     </aside>
 
-
-    <main class="page"></main>
-    <section class="greeting-section" data-animate>
-        <div class="greeting-container">
-            <h2><span class="greeting-name">Hello, <span id="user-name">Student</span>!</span></h2>
-            <p class="greeting-subtext">Welcome to Exeat Hub, Covenant University.</p>
-        </div>
-    </section>
+    <!-- Hamburger -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
 
+    <div class="background-pattern">
+        <main class="page"></main>
 
-    <section class="exeat-section" data-animate>
-        <div class="exeat-container">
-            <h2 class="section-title">Apply for an Exeat</h2>
+        <section class="greeting-section" data-animate>
+            <div class="greeting-container">
+                <h2><span class="greeting-name">Hello, <span id="user-name">Student</span>!</span></h2>
+                <p class="greeting-subtext">Welcome to Exeat Hub, Covenant University.</p>
+            </div>
+        </section>
 
-            <!-- Exeat Types -->
-            <div class="exeat-types">
-                <button class="exeat-type" data-type="Day Exeat">Day Exeat</button>
-                <button class="exeat-type" data-type="Home Exeat">Home Exeat</button>
-                <button class="exeat-type" data-type="Canaanland Exeat">Canaanland Exeat</button>
+
+
+
+        <section class="exeat-section">
+            <h2 class="section-title">Choose Exeat Type</h2>
+
+            <div class="exeat-options">
+                <div class="exeat-card" data-type="day">Day Exeat</div>
+                <div class="exeat-card" data-type="home">Home Exeat</div>
+                <div class="exeat-card" data-type="canaanland">Canaanland Exeat</div>
             </div>
 
-            <!-- Single Form Container -->
-            <div id="exeat-form-container" class="exeat-form">
-                <form>
-                    <label>Exeat Type</label>
-                    <input type="text" id="exeat-type-input" value="Day Exeat" readonly>
+            <div class="exeat-form-wrapper">
+                <form class="exeat-form-card">
+                    <h3 class="exeat-form-title">Exeat Application Form</h3>
 
-                    <!-- Name -->
-                    <label>Name</label>
-                    <input type="text" placeholder="Enter your name" required>
-
-                    <!-- Matric No + Level -->
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Matric Number</label>
-                            <input type="text" placeholder="Enter matric number" required>
+                            <label>Name</label>
+                            <input type="text" required>
                         </div>
-                        <div class="form-group">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label>Matric No</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group half">
                             <label>Level</label>
-                            <input type="text" placeholder="Enter your level" required>
+                            <input type="text" required>
                         </div>
                     </div>
 
-                    <!-- College + Course of Study -->
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label>College</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group half">
+                            <label>Course of Study</label>
+                            <input type="text" required>
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group">
-                            <label>College</label>
-                            <input type="text" placeholder="Enter your college" required>
+                            <label>Reason</label>
+                            <textarea rows="3"></textarea>
                         </div>
+                    </div>
+
+                    <!-- Drag & Drop Upload -->
+                    <div class="form-row">
+                        <div class="upload-area" id="uploadBox">
+                            <p>Drag & Drop file here</p>
+                            <span>or</span>
+                            <button type="button" onclick="document.getElementById('fileInput').click()">Browse
+                                Files</button>
+                            <input type="file" id="fileInput" hidden required>
+                        </div>
+                    </div>
+
+                    <div class="form-row date-row">
+                        <div class="form-group half">
+                            <label>Start Date</label>
+                            <input type="date" required>
+                        </div>
+                        <div class="form-group half">
+                            <label>End Date</label>
+                            <input type="date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label>Contact Relation</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group half">
+                            <label>Contact Phone</label>
+                            <input type="tel" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group">
-                            <label>Course of Study</label>
-                            <input type="text" placeholder="Enter your course of study" required>
+                            <label>Your Phone (while away)</label>
+                            <input type="tel" required>
                         </div>
                     </div>
 
-                    <!-- Reason -->
-                    <label>Reason</label>
-                    <textarea placeholder="Enter reason for exeat" rows="3" required></textarea>
-
-                    <!-- Proof of Reason -->
-                    <label>Proof of Reason</label>
-                    <div class="file-upload" id="file-upload">
-                        <p>Drag & Drop your file here or <span class="browse">browse</span></p>
-                        <input type="file" id="proof-file" hidden>
-                    </div>
-
-                    <!-- Duration -->
-                    <label>Duration</label>
-                    <div class="duration">
-                        <input type="date" placeholder="Start Date" required>
-                        <input type="date" placeholder="End Date" required>
-                    </div>
-
-                    <!-- Contact Person -->
-                    <label>Contact Person</label>
-                    <div class="contact-person">
-                        <input type="text" placeholder="Relation" required>
-                        <input type="tel" placeholder="Phone Number" required>
-                    </div>
-
-                    <!-- Phone -->
-                    <label>Phone (while away)</label>
-                    <input type="tel" placeholder="Your contact number" required>
-
-                    <button type="submit" class="submit-btn">Submit Application</button>
+                    <button class="submit-btn" type="submit">Submit Request</button>
                 </form>
             </div>
+        </section>
+
+
+
+
+
+
+        <!-- ==============================
+     Pending Applications Section
+=============================== -->
+        <section class="pending-applications-section">
+            <h2 class="section-title">Pending Applications</h2>
+            <div class="pending-list">
+                <div class="pending-item">
+                    <div class="pending-info">
+                        <h4>Home Exeat</h4>
+                        <span>Status: <span class="status pending">Pending</span></span>
+                    </div>
+                    <button class="track-status-btn">Track Status</button>
+                </div>
+                <div class="pending-item">
+                    <div class="pending-info">
+                        <h4>Day Exeat</h4>
+                        <span>Status: <span class="status pending">Pending</span></span>
+                    </div>
+                    <button class="track-status-btn">Track Status</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Track Status Modal -->
+        <div class="track-modal" id="trackModal">
+            <div class="track-modal-content">
+                <span class="close-modal" id="closeTrackModal">&times;</span>
+                <h3>Exeat Tracking</h3>
+                <div class="progress-tracker">
+                    <div class="step completed">Applied</div>
+                    <div class="step completed">Student Affairs Approval</div>
+                    <div class="step pending">Parent Confirmation</div>
+                    <div class="step pending">Approved</div>
+                </div>
+            </div>
         </div>
-    </section>
 
 
 
-
-
-
-
-
-    <!--Exeat history section-->
-    <section class="exeat-history-section" data-animate>
-        <div class="exeat-container">
+        <!--exeat history and tracking-->
+        <!-- ==============================
+     Exeat History Section
+=============================== -->
+        <section class="exeat-history-section">
             <h2 class="section-title">Exeat History</h2>
 
-            <!-- Filters -->
-            <div class="history-filters">
-                <div class="type-filters">
-                    <button class="type-filter active" data-type="all">All Types</button>
-                    <button class="type-filter" data-type="Day Exeat">Day Exeat</button>
-                    <button class="type-filter" data-type="Home Exeat">Home Exeat</button>
-                    <button class="type-filter" data-type="Canaanland Exeat">Canaanland Exeat</button>
-                </div>
-                <div class="status-filters">
-                    <button class="status-filter active" data-status="all">All</button>
-                    <button class="status-filter" data-status="Approved">Approved</button>
-                    <button class="status-filter" data-status="Denied">Denied</button>
-                    <button class="status-filter" data-status="Processing">Processing</button>
+            <button class="filter-btn">Filter Exeats</button>
+
+            <!-- Filter Popup -->
+            <div class="filter-popup">
+                <div class="filter-content">
+                    <h3>Filter Exeats</h3>
+                    <label>Exeat Type:</label>
+                    <select id="filterType">
+                        <option value="all">All</option>
+                        <option value="day">Day Exeat</option>
+                        <option value="home">Home Exeat</option>
+                        <option value="canaanland">Canaanland Exeat</option>
+                    </select>
+
+                    <label>Status:</label>
+                    <select id="filterStatus">
+                        <option value="all">All</option>
+                        <option value="approved">Approved</option>
+                        <option value="pending">Pending</option>
+                        <option value="declined">Declined</option>
+                    </select>
+
+                    <button class="apply-filter">Apply Filter</button>
                 </div>
             </div>
 
-            <!-- History List -->
-            <div class="history-list">
-                <!-- Example Item -->
-
-
-                <div class="history-item" data-type="Day Exeat" data-status="Approved" data-animate>
-                    <div class="item-header">
-                        <span class="item-type">Day Exeat</span>
-                        <span class="item-status approved">Approved</span>
+            <div class="exeat-history-list">
+                <!-- Each exeat -->
+                <div class="exeat-item" data-type="day" data-status="approved">
+                    <div class="exeat-info">
+                        <h4>Day Exeat</h4>
+                        <span>Status: <span class="status approved">Approved</span></span>
                     </div>
-                    <div class="item-body">
-                        <p><strong>Reason:</strong> Family emergency</p>
-                        <p><strong>Duration:</strong> 2025-11-20 to 2025-11-21</p>
-                    </div>
-                    <div class="item-footer">
-                        <button class="view-slip-btn">View Exeat Slip</button>
+                    <button class="view-slip">View Exeat Slip</button>
+                </div>
+                <div class="exeat-item" data-type="home" data-status="pending">
+                    <div class="exeat-info">
+                        <h4>Home Exeat</h4>
+                        <span>Status: <span class="status pending">Pending</span></span>
                     </div>
                 </div>
-
-
-                <div class="history-item" data-type="Home Exeat" data-status="Processing" data-animate>
-                    <div class="item-header">
-                        <span class="item-type">Home Exeat</span>
-                        <span class="item-status processing">Processing</span>
-                    </div>
-                    <div class="item-body">
-                        <p><strong>Reason:</strong> Personal matter</p>
-                        <p><strong>Duration:</strong> 2025-11-22 to 2025-11-23</p>
+                <div class="exeat-item" data-type="canaanland" data-status="declined">
+                    <div class="exeat-info">
+                        <h4>Canaanland Exeat</h4>
+                        <span>Status: <span class="status declined">Declined</span></span>
                     </div>
                 </div>
-
-                <div class="history-item" data-type="Canaanland Exeat" data-status="Denied" data-animate>
-                    <div class="item-header">
-                        <span class="item-type">Canaanland Exeat</span>
-                        <span class="item-status denied">Denied</span>
-                    </div>
-                    <div class="item-body">
-                        <p><strong>Reason:</strong> Travel plans</p>
-                        <p><strong>Duration:</strong> 2025-11-25 to 2025-11-27</p>
-                    </div>
-                </div>
-
-                <!-- More items can be added dynamically -->
             </div>
-        </div>
-    </section>
+        </section>
 
 
 
@@ -231,6 +277,8 @@
 
 
 
+
+    </div>
     </main>
 
     <script src="./studentdashboard.js"></script>

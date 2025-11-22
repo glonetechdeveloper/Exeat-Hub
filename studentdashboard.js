@@ -7,28 +7,16 @@ const overlay = document.getElementById("overlay");
 const closeBtn = document.getElementById("closeBtn");
 const navbar = document.getElementById("navbar");
 
-function openSidebar() {
-    hamburger.classList.add("active");
-    sidebar.classList.add("active");
-    overlay.classList.add("active");
-}
 
-function closeSidebar() {
-    hamburger.classList.remove("active");
-    sidebar.classList.remove("active");
-    overlay.classList.remove("active");
-}
+
+
 
 hamburger.addEventListener("click", () => {
-    if (sidebar.classList.contains("active")) closeSidebar();
-    else openSidebar();
+    sidebar.classList.toggle("expanded");
+    hamburger.classList.toggle("active"); // animate hamburger
 });
 
-closeBtn.addEventListener("click", closeSidebar);
-overlay.addEventListener("click", closeSidebar);
-window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeSidebar();
-});
+
 
 // ---------------------------
 // Navbar hide/show on scroll
@@ -67,158 +55,126 @@ fadeElements.forEach(el => observer.observe(el));
 
 
 
-//Apply for exeat section
-// Accordion toggle for exeat types
-const exeatButtons = document.querySelectorAll(".exeat-type");
-const exeatForm = document.getElementById("exeat-form-container");
-const exeatTypeInput = document.getElementById("exeat-type-input");
 
-let formOpen = false;
-let currentActiveButton = null;
+//exeat type
+const cards = document.querySelectorAll(".exeat-card");
+const formWrapper = document.querySelector(".exeat-form-wrapper");
 
-exeatButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        const typeName = btn.dataset.type;
+let activeType = null;
 
-        // Highlight the clicked button
-        exeatButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentActiveButton = btn;
+cards.forEach(card => {
+    card.addEventListener("click", () => {
+        const type = card.dataset.type;
 
-        // Update form type input
-        exeatTypeInput.value = typeName;
-
-        // Toggle form
-        if (!formOpen) {
-            exeatForm.classList.add("active");
-            formOpen = true;
-
+        // Toggle form if same type clicked
+        if (activeType === type) {
+            card.classList.remove("active");
+            formWrapper.style.display = "none";
+            activeType = null;
         } else {
-            // Optionally, add a small bounce/fade effect
-            exeatForm.classList.remove("active");
+            cards.forEach(c => c.classList.remove("active"));
+            card.classList.add("active");
+            formWrapper.style.display = "block";
+            activeType = type;
+
+            // Scroll smoothly to form
             setTimeout(() => {
-                exeatForm.classList.add("active");
-
-            }, 300);
-        }
-    });
-});
-
-// File upload drag & drop
-const fileUploadElements = document.querySelectorAll(".file-upload");
-fileUploadElements.forEach(fileUpload => {
-    const fileInput = fileUpload.querySelector("input[type='file']");
-
-    fileUpload.addEventListener("click", () => fileInput.click());
-
-    fileUpload.addEventListener("dragover", e => {
-        e.preventDefault();
-        fileUpload.classList.add("dragover");
-    });
-
-    fileUpload.addEventListener("dragleave", () => {
-        fileUpload.classList.remove("dragover");
-    });
-
-    fileUpload.addEventListener("drop", e => {
-        e.preventDefault();
-        fileUpload.classList.remove("dragover");
-        const files = e.dataTransfer.files;
-        if (files.length) {
-            fileInput.files = files;
-            fileUpload.querySelector("p").textContent = files[0].name;
-        }
-    });
-
-    fileInput.addEventListener("change", () => {
-        if (fileInput.files.length) {
-            fileUpload.querySelector("p").textContent = fileInput.files[0].name;
+                formWrapper.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 100);
         }
     });
 });
 
 
+// DRAG & DROP UPLOAD
+const uploadBox = document.getElementById("uploadBox");
+const fileInput = document.getElementById("fileInput");
 
+// Click to browse
+uploadBox.querySelector("button").addEventListener("click", () => {
+    fileInput.click();
+});
 
+// Manual file selection
+fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (file) handleFile(file);
+});
 
+// Drag over
+uploadBox.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    uploadBox.style.background = "#e5eeff";
+});
 
+// Drag leave
+uploadBox.addEventListener("dragleave", () => {
+    uploadBox.style.background = "#f0f6ff";
+});
 
-//exeat history section 
-const typeFilters = document.querySelectorAll(".type-filter");
-const statusFilters = document.querySelectorAll(".status-filter");
-const historyItems = document.querySelectorAll(".history-item");
+// Drop file
+uploadBox.addEventListener("drop", (e) => {
+    e.preventDefault();
+    uploadBox.style.background = "#f0f6ff";
 
-// Filter function
-function filterHistory() {
-    const activeType = document.querySelector(".type-filter.active").dataset.type;
-    const activeStatus = document.querySelector(".status-filter.active").dataset.status;
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+});
 
-    historyItems.forEach(item => {
-        const matchesType = activeType === "all" || item.dataset.type === activeType;
-        const matchesStatus = activeStatus === "all" || item.dataset.status === activeStatus;
-
-        if (matchesType && matchesStatus) {
-            item.style.display = "block";
-            setTimeout(() => item.classList.add("visible"), 50); // fade-up
-        } else {
-            item.classList.remove("visible");
-            setTimeout(() => item.style.display = "none", 300);
-        }
-    });
+function handleFile(file) {
+    uploadBox.innerHTML = `
+        <p><strong>${file.name}</strong></p>
+        <p style="color:#0047AB; font-size:0.9rem;">Uploaded Successfully</p>
+    `;
 }
 
-// Handle Type Filters
-typeFilters.forEach(btn => {
-    btn.addEventListener("click", () => {
-        typeFilters.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        filterHistory();
+
+
+//pending exeat and exeat history
+// Filter Popup
+const filterBtn = document.querySelector('.filter-btn');
+const filterPopup = document.querySelector('.filter-popup');
+const applyFilter = document.querySelector('.apply-filter');
+
+filterBtn.addEventListener('click', () => {
+    filterPopup.style.display = 'flex';
+});
+applyFilter.addEventListener('click', () => {
+    filterPopup.style.display = 'none';
+    const type = document.getElementById('filterType').value;
+    const status = document.getElementById('filterStatus').value;
+    const items = document.querySelectorAll('.exeat-item');
+    items.forEach(item => {
+        let show = true;
+        if (type !== 'all' && item.dataset.type !== type) show = false;
+        if (status !== 'all' && item.dataset.status !== status) show = false;
+        item.style.display = show ? 'flex' : 'none';
     });
 });
 
-// Handle Status Filters
-statusFilters.forEach(btn => {
-    btn.addEventListener("click", () => {
-        statusFilters.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        filterHistory();
+
+// Track Status Modal
+// Elements
+const trackBtns = document.querySelectorAll('.track-status-btn');
+const trackModal = document.getElementById('trackModal');
+const closeModal = document.getElementById('closeTrackModal');
+
+// Open modal only when clicking the button
+trackBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        trackModal.style.display = 'flex';
     });
 });
 
-// Initialize fade-up animation on page load
-window.addEventListener("load", filterHistory);
+// Close modal when clicking the X
+closeModal.addEventListener('click', () => {
+    trackModal.style.display = 'none';
+});
 
-
-
-//view exeat slip button for history 
-historyItems.forEach(item => {
-    const status = item.dataset.status;
-
-    // Remove existing button if any (for repeated filtering)
-    const existingBtn = item.querySelector(".view-slip-btn");
-    if (existingBtn) existingBtn.remove();
-
-    if (status === "Approved") {
-        const footer = document.createElement("div");
-        footer.classList.add("item-footer");
-
-        const btn = document.createElement("button");
-        btn.classList.add("view-slip-btn");
-        btn.textContent = "View Exeat Slip";
-
-        // Add click event to show slip (could open modal or link)
-        btn.addEventListener("click", () => {
-            alert(`Here you can open or download the Exeat slip for ${item.dataset.type}`);
-            // Or implement a modal or redirect to PDF
-        });
-
-        footer.appendChild(btn);
-        item.appendChild(footer);
+// Close modal when clicking outside the modal content
+window.addEventListener('click', e => {
+    if (e.target === trackModal) {
+        trackModal.style.display = 'none';
     }
 });
-
-
-
-
-
 
