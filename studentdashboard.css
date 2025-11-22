@@ -655,148 +655,13 @@ textarea:focus {
 
 
 
-/* =========================
-   General Section Spacing
-=========================== */
-.exeat-history-section,
-.pending-applications-section {
-    padding: 10px 20px;
-    margin: 0 auto;
-    max-width: 1000px;
-}
 
-.section-title {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #123b7a;
-    margin-bottom: 50px;
-}
-
-/* =========================
-   Exeat History Section
-=========================== */
-.filter-btn {
-    background: #0047AB;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-bottom: 20px;
-}
-
-.filter-btn:hover {
-    background: #033b90;
-}
-
-/* Filter Popup */
-.filter-popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-}
-
-.filter-content label {
-    display: block;
-    margin-top: 10px;
-    font-weight: 600;
-}
-
-.filter-content select {
-    width: 100%;
-    padding: 8px 12px;
-    margin-top: 5px;
-    border-radius: 8px;
-    border: 1.5px solid #bfc9d9;
-}
-
-.apply-filter {
-    margin-top: 15px;
-    width: 100%;
-    background: #0047AB;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.apply-filter:hover {
-    background: #033b90;
-}
-
-/* History List */
-.exeat-history-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-    margin-bottom: 60px;
-}
-
-.exeat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 25px;
-    background: #f7f9ff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.exeat-item .exeat-info h4 {
-    font-size: 1.2rem;
-    color: #123b7a;
-    margin-bottom: 5px;
-}
-
-.status {
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 12px;
-    color: white;
-    font-size: 0.9rem;
-}
-
-.status.approved {
-    background: #2f63c9;
-}
-
-.status.pending {
-    background: #fff;
-}
-
-.status.declined {
-    background: #d9534f;
-}
-
-.view-slip {
-    background: #2f63c9;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.view-slip:hover {
-    background: #1e4ba3;
-}
 
 /* =========================
    Pending Applications Section
 =========================== */
 /* ===================== Pending Applications ===================== */
+
 .pending-applications-section {
     max-width: 1000px;
     margin: 50px auto;
@@ -1010,4 +875,427 @@ textarea:focus {
         font-size: 0.75rem;
         margin-bottom: 8px;
     }
+}
+
+
+
+
+
+
+
+/*exeat history section*/
+/* ============== History layout & margins ============== */
+
+
+.history-section {
+    margin-top: 50px;
+    padding: 0;
+    /* we'll use inner container for horizontal spacing */
+}
+
+/* Control left/right margins — increase these values to widen side gaps */
+.history-inner {
+    max-width: 1100px;
+    /* width of the white card */
+    margin: 0 auto;
+    /* center on page */
+    padding: 40px 64px;
+    /* top/bottom 40, left/right 64 -> increase side margins */
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* On smaller screens reduce horizontal padding so content fits */
+@media (max-width: 900px) {
+    .history-inner {
+        padding: 32px 32px;
+    }
+}
+
+@media (max-width: 600px) {
+    .history-inner {
+        padding: 18px 14px;
+    }
+}
+
+/* Header / filter button bar */
+.history-title {
+    text-align: center;
+    color: #0047AB;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+}
+
+
+.history-top-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin: 8px 0 18px 0;
+}
+
+.history-filter-btn {
+    padding: 8px 14px;
+    background: #0047AB;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+/* Table card inside the white container */
+.history-table {
+    background: transparent;
+    /* container already white */
+    padding: 0;
+    border-radius: 10px;
+    overflow: visible;
+}
+
+.history-header,
+.history-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 0.9fr;
+    padding: 14px 8px;
+    border-bottom: 1px solid #e9eef8;
+    font-size: 1rem;
+}
+
+.history-header {
+    font-weight: 700;
+    color: #123b7a;
+}
+
+.history-row {
+    background: rgba(240, 246, 255, 0.6);
+    margin: 10px 0;
+    border-radius: 12px;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+/* Action button */
+.history-row .history-view-btn {
+    padding: 8px 12px;
+    background: #005FB8;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Status colors */
+.history-status.approved {
+    color: #2f63c9;
+    font-weight: 700;
+}
+
+.history-status.declined {
+    color: #d9534f;
+    font-weight: 700;
+}
+
+/* ============== Filter modal styles (unchanged but ensure visible) ============== */
+.history-filter-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 12000;
+}
+
+.history-filter-content {
+    background: white;
+    padding: 20px;
+    width: 92%;
+    max-width: 380px;
+    border-radius: 12px;
+}
+
+/* ============== Details Modal - Match screenshot ============== */
+.history-details-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    justify-content: center;
+    align-items: center;
+    z-index: 12500;
+}
+
+.history-details-content {
+    width: 95%;
+    max-width: 900px;
+    /* wide card like screenshot */
+    background: #f7f9ff;
+    /* subtle bluish background */
+    border-radius: 14px;
+    padding: 28px 36px;
+    position: relative;
+    box-shadow: 0 18px 60px rgba(8, 20, 50, 0.18);
+}
+
+/* close button top-right */
+.history-details-close {
+    position: absolute;
+    right: 20px;
+    top: 18px;
+    font-size: 26px;
+    background: transparent;
+    border: none;
+    color: #0b5ec7;
+    cursor: pointer;
+}
+
+
+/* big blue heading */
+.details-header {
+    color: #0047AB;
+    font-size: 28px;
+    margin: 6px 0 18px 0;
+    font-weight: 700;
+}
+
+/* details pills grid (two columns) */
+.history-details-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+/* pill style matches screenshot */
+.detail-pill {
+    background: white;
+    padding: 12px 18px;
+    border-radius: 14px;
+    box-shadow: 0 8px 18px rgba(11, 30, 70, 0.06);
+    font-size: 0.95rem;
+    color: #0f1724;
+}
+
+/* tracked status heading */
+.tracked-title {
+    margin-top: 6px;
+    color: #1f2937;
+    font-weight: 600;
+}
+
+/* steps as pills, inline */
+.history-tracked-steps {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+/* default pill */
+.track-pill {
+    background: #eef4ff;
+    color: #6b7280;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* active (completed) pill */
+.track-pill.active {
+    background: #dfeeff;
+    color: #0047AB;
+    box-shadow: 0 6px 18px rgba(9, 52, 148, 0.08);
+}
+
+/* failed pill */
+.track-pill.failed {
+    background: #ffecec;
+    color: #b91c1c;
+}
+
+/* responsiveness — shrink font and layout on small screens */
+@media (max-width: 900px) {
+    .history-inner {
+        padding-left: 28px;
+        padding-right: 28px;
+    }
+
+    .history-header,
+    .history-row {
+        font-size: 0.95rem;
+        grid-template-columns: 1fr 1fr 1fr 0.9fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .history-inner {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .history-header,
+    .history-row {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 8px;
+    }
+
+    .history-row span:nth-child(3),
+    .history-row span:nth-child(4) {
+        grid-column: span 2;
+    }
+
+    .history-details-info {
+        grid-template-columns: 1fr;
+    }
+
+    .details-header {
+        font-size: 22px;
+    }
+
+    .track-pill {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+}
+
+
+
+/* Fix close button visibility */
+.history-filter-close,
+.history-details-close {
+    color: #334155;
+    font-weight: 700;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+}
+
+/* Add padding so the button doesn't overlap content */
+.history-filter-content,
+.history-details-content {
+    position: relative;
+    padding-top: 35px;
+}
+
+/* Improve Apply Filter button spacing */
+.apply-filter-btn {
+    background: #0047AB;
+    color: white;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: 0.2s ease;
+}
+
+.apply-filter-btn:hover {
+    background: #003a8c;
+}
+
+
+
+/* Close button for filter modal */
+.history-filter-close {
+    float: right;
+    font-size: 22px;
+    font-weight: 700;
+    background: #f1f5f9;
+    border: 2px solid #cbd5e1;
+    color: #475569;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.history-filter-close:hover {
+    background: #e2e8f0;
+}
+
+
+.history-filter-content label {
+    font-weight: 600;
+    color: #334155;
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+
+/*view slip*/
+.view-slip-btn {
+    padding: 6px 10px;
+    background: #059669;
+    /* green */
+    color: white;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.view-slip-btn:hover {
+    background: #047857;
+}
+
+
+
+
+
+
+/* ==========================
+      Dashboard Footer
+========================== */
+.exeathub-footer {
+    background: #ffffff;
+    margin-top: 60px;
+    padding: 25px 15px;
+    text-align: center;
+    border-top: 1px solid #e5e7eb;
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.footer-content {
+    max-width: 900px;
+    margin: auto;
+}
+
+.footer-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0047AB;
+    margin-bottom: 8px;
+}
+
+.footer-text {
+    font-size: 0.9rem;
+    color: #475569;
+    margin-bottom: 15px;
+}
+
+.footer-powered {
+    font-size: 0.9rem;
+    color: #64748B;
+}
+
+.footer-powered span {
+    font-weight: 700;
+    color: #0047AB;
 }

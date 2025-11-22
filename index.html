@@ -234,80 +234,141 @@
 
 
 
-        <!--exeat history and tracking-->
+
+
         <!-- ==============================
-     Exeat History Section
-=============================== -->
-        <section class="exeat-history-section">
-            <h2 class="section-title">Exeat History</h2>
+     Exeat History Section (REPLACEMENT)
+============================== -->
+        <section class="history-section" data-animate>
+            <div class="history-inner"> <!-- new container to control horizontal margins -->
+                <h2 class="history-title">Exeat History</h2>
 
-            <button class="filter-btn">Filter Exeats</button>
-
-            <!-- Filter Popup -->
-            <div class="filter-popup">
-                <div class="filter-content">
-                    <h3>Filter Exeats</h3>
-                    <label>Exeat Type:</label>
-                    <select id="filterType">
-                        <option value="all">All</option>
-                        <option value="day">Day Exeat</option>
-                        <option value="home">Home Exeat</option>
-                        <option value="canaanland">Canaanland Exeat</option>
-                    </select>
-
-                    <label>Status:</label>
-                    <select id="filterStatus">
-                        <option value="all">All</option>
-                        <option value="approved">Approved</option>
-                        <option value="pending">Pending</option>
-                        <option value="declined">Declined</option>
-                    </select>
-
-                    <button class="apply-filter">Apply Filter</button>
+                <div class="history-top-bar">
+                    <button id="openHistoryFilter" class="history-filter-btn">🔍 Filter</button>
                 </div>
-            </div>
 
-            <div class="exeat-history-list">
-                <!-- Each exeat -->
-                <div class="exeat-item" data-type="day" data-status="approved">
-                    <div class="exeat-info">
-                        <h4>Day Exeat</h4>
-                        <span>Status: <span class="status approved">Approved</span></span>
+                <div class="history-table">
+                    <div class="history-header">
+                        <span>Date Applied</span>
+                        <span>Type of Exeat</span>
+                        <span>Status</span>
+                        <span>Actions</span>
                     </div>
-                    <button class="view-slip">View Exeat Slip</button>
-                </div>
-                <div class="exeat-item" data-type="home" data-status="pending">
-                    <div class="exeat-info">
-                        <h4>Home Exeat</h4>
-                        <span>Status: <span class="status pending">Pending</span></span>
+
+                    <!-- Example 1 (NOTE: data-date used by filter JS) -->
+                    <div class="history-row" data-date="2025-10-11" data-type="Home Exeat">
+                        <span>2025-10-11 08:15</span>
+                        <span>Home Exeat</span>
+                        <span class="history-status approved">Approved</span>
+                        <span>
+                            <button class="history-view-btn">View Details</button>
+                            <button class="view-slip-btn">View Slip</button>
+                        </span>
+
                     </div>
-                </div>
-                <div class="exeat-item" data-type="canaanland" data-status="declined">
-                    <div class="exeat-info">
-                        <h4>Canaanland Exeat</h4>
-                        <span>Status: <span class="status declined">Declined</span></span>
+
+                    <!-- Example 2 -->
+                    <div class="history-row" data-date="2025-09-20" data-type="Day Exeat">
+                        <span>2025-09-20 14:40</span>
+                        <span>Day Exeat</span>
+                        <span class="history-status declined">Declined</span>
+                        <span><button class="history-view-btn">View Details</button></span>
                     </div>
                 </div>
             </div>
         </section>
 
 
+        <!-- ==============================
+     Filter Popup (REPLACEMENT)
+============================== -->
+        <div id="historyFilterPopup" class="history-filter-modal" aria-hidden="true">
+            <div class="history-filter-content">
+                <button id="closeHistoryFilter" class="history-filter-close" aria-label="Close filter">&times;</button>
+                <h3>Filter Exeat History</h3>
+
+                <label for="historyFilterType">Type of Exeat</label>
+                <select id="historyFilterType">
+                    <option value="all">All</option>
+                    <option value="Day Exeat">Day Exeat</option>
+                    <option value="Home Exeat">Home Exeat</option>
+                    <option value="Canaanland Exeat">Canaanland Exeat</option>
+                </select>
+
+                <label for="historyFilterStatus">Status</label>
+                <select id="historyFilterStatus">
+                    <option value="all">All</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Declined">Declined</option>
+                </select>
+
+                <label for="historyFilterRange">Time Period</label>
+                <select id="historyFilterRange">
+                    <option value="all">All</option>
+                    <option value="7days">Last 7 Days</option>
+                    <option value="30days">Last 30 Days</option>
+                    <option value="month">This Month</option>
+                </select>
+
+                <button id="applyHistoryFilter" class="apply-filter-btn">Apply Filter</button>
+            </div>
+        </div>
 
 
+        <!-- ==============================
+     View Details Modal (REPLACEMENT)
+     — styled to match your screenshot
+============================== -->
+        <div id="historyDetailsModal" class="history-details-modal" aria-hidden="true">
+            <div class="history-details-content">
+                <button id="closeHistoryDetails" class="history-details-close" aria-label="Close details">✕</button>
 
+                <h3 class="details-header">Application Details</h3>
 
+                <div class="history-details-info">
+                    <div class="detail-pill"><strong>reason:</strong> <span id="detailsReason">—</span></div>
+                    <div class="detail-pill"><strong>contact relation:</strong> <span
+                            id="detailsContactRelation">—</span></div>
 
+                    <div class="detail-pill"><strong>contact phone:</strong> <span id="detailsContactPhone">—</span>
+                    </div>
+                    <div class="detail-pill"><strong>phone while away:</strong> <span id="detailsPhoneAway">—</span>
+                    </div>
 
+                    <div class="detail-pill"><strong>start date:</strong> <span id="detailsStartDate">—</span></div>
+                    <div class="detail-pill"><strong>end date:</strong> <span id="detailsEndDate">—</span></div>
+                </div>
 
+                <h4 class="tracked-title">Tracked Status</h4>
+                <div id="historyTrackSteps" class="history-tracked-steps">
+                    <!-- JS will fill steps as pills -->
+                </div>
+            </div>
+        </div>
 
+        <!-- ==========================
+        DASHBOARD FOOTER
+========================== -->
+        <footer class="exeathub-footer">
+            <div class="footer-content">
+                <p class="footer-title">ExeatHub — Smart Exeat Management System</p>
+                <p class="footer-text">
+                    Streamlining student movement, approvals, and tracking with efficiency and transparency.
+                </p>
 
-
+                <p class="footer-powered">
+                    Powered by <a href=""><span>RimoTech</span></a>
+                </p>
+            </div>
+        </footer>
 
 
 
 
     </div>
     </main>
+
+
 
     <script src="./studentdashboard.js"></script>
 </body>
